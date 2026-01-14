@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: stg_dma_bootcamp
+    description: Cleaned staging view for DMA CSV submissions.
+    columns:
+      - name: id
+        description: Primary identifier for each submission.
+        tests:
+          - not_null
+      - name: submission_date
+        description: Normalized submission date using the validate_date macro.
+        tests:
+          - not_null
+      - name: project_id
+        description: Project identifier linked to each submission.

@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: staging_dma_bootcamp
+    schema: staging_dma_bootcamp
+    tables:
+      - name: DMA_CSV_file_format___Sheet_1
+        identifier: DMA_CSV_file_format___Sheet_1
+        description: DMA CSV file format
