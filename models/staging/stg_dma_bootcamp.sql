@@ -1,4 +1,4 @@
-{{ config(materialized='view') }}
+{{ config(materialized='table') }}
 
 {% set source_relation = source('staging_dma_bootcamp', 'DMA_CSV_file_format___Sheet_1') %}
 {% set columns = adapter.get_columns_in_relation(source_relation) %}
