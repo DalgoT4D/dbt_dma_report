@@ -1,0 +1,35 @@
+version: 2
+sources:
+- name: staging
+  schema: staging
+  tables:
+  - name: Airbyte
+    identifier: Airbyte
+    description: ''
+  - name: CMD_Session_2
+    identifier: CMD_Session_2
+    description: ''
+  - name: CMD_Session_3
+    identifier: CMD_Session_3
+    description: ''
+  - name: CMD_Session_5
+    identifier: CMD_Session_5
+    description: ''
+  - name: Edit_Registration_Data
+    identifier: Edit_Registration_Data
+    description: ''
+  - name: Select_single_column_himanshu
+    identifier: Select_single_column_himanshu
+    description: ''
+  - name: state_district_population
+    identifier: state_district_population
+    description: ''
+  - name: work_order_metric_gdgs_25
+    identifier: work_order_metric_gdgs_25
+    description: ''
+- name: staging_qual
+  schema: staging_qual
+  tables:
+  - name: sample_student_data
+    identifier: sample_student_data
+    description: ''

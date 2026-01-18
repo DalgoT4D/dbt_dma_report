@@ -7,4 +7,11 @@ venv/
 profiles.yml
 profiles.yaml
 .user.yml
+package-lock.ymlprofiles/
+*/profiles.yml
+.env*
+.env.local
+elementary_profiles/
+*.html
+profiles/
 package-lock.yml
