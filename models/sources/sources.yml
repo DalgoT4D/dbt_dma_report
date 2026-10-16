@@ -27,6 +27,11 @@ sources:
   - name: work_order_metric_gdgs_25
     identifier: work_order_metric_gdgs_25
     description: ''
+  - name: avpn_digital_data_maturity_assessment
+    identifier: AVPN_Digital_Data_Maturity_Assessment
+    description: Kobo submissions for the AVPN Digital Data Maturity Assessment.
+    quoting:
+      identifier: true
 - name: staging_qual
   schema: staging_qual
   tables:

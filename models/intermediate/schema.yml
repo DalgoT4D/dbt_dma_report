@@ -1,0 +1,97 @@
+version: 2
+
+models:
+  - name: int_avpn_dma_question_catalog
+    description: Survey question metadata transcribed from the supplied Kobo XLSForm.
+    columns:
+      - name: question_code
+        tests:
+          - not_null
+          - unique
+      - name: question_label
+        tests:
+          - not_null
+
+  - name: int_avpn_dma_choice_catalog
+    description: Survey option codes and English labels transcribed from the supplied Kobo XLSForm.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [list_name, option_code]
+    columns:
+      - name: list_name
+        tests:
+          - not_null
+      - name: option_code
+        tests:
+          - not_null
+      - name: option_label
+        tests:
+          - not_null
+
+  - name: int_avpn_dma_responses
+    description: >-
+      Long-form, dashboard-ready answers. Select-multiple answers are exploded
+      to one row per selected option and all coded answers have English labels.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [assessment_id, question_code, response_code]
+    columns:
+      - name: assessment_id
+        tests:
+          - not_null
+      - name: question_code
+        tests:
+          - not_null
+      - name: response_code
+        tests:
+          - not_null
+      - name: response_label
+        tests:
+          - not_null
+
+  - name: int_avpn_dma_question_scores
+    description: One row per assessment and scored question, normalized to a four-point maximum.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [assessment_id, question_code]
+    columns:
+      - name: assessment_id
+        tests:
+          - not_null
+      - name: question_score
+        tests:
+          - not_null
+
+  - name: int_avpn_dma_section_scores
+    description: One row per assessment and scored section, including weights and score contributions.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [assessment_id, section_code]
+    columns:
+      - name: assessment_id
+        tests:
+          - not_null
+      - name: section_code
+        tests:
+          - accepted_values:
+              values: ['C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+      - name: section_pct
+        tests:
+          - not_null
+
+  - name: int_avpn_dma_flags
+    description: One row per assessment and diagnostic flag, including inactive flags.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [assessment_id, flag_code]
+    columns:
+      - name: assessment_id
+        tests:
+          - not_null
+      - name: flag_code
+        tests:
+          - not_null
+      - name: is_flagged
+        tests:
+          - not_null
+

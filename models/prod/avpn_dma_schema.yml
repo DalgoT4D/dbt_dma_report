@@ -1,0 +1,75 @@
+version: 2
+
+models:
+  - name: fct_avpn_dma_assessments
+    description: >-
+      Main organisation-level dashboard fact with profile segments, section
+      percentages, maturity indices and diagnostics. Respondent name, email and
+      raw JSON are intentionally excluded.
+    columns:
+      - name: assessment_id
+        tests:
+          - not_null
+          - unique
+      - name: organization_name
+        tests:
+          - not_null
+      - name: overall_score
+        tests:
+          - not_null
+
+  - name: fct_avpn_dma_organization_detail
+    description: >-
+      Wide organisation-grain dashboard table with one row per assessment,
+      every labeled survey response, detailed question scores, section scores,
+      maturity indices and diagnostic flags. Multi-select answers are stored as
+      semicolon-separated labels so the row remains at organisation grain.
+    columns:
+      - name: assessment_id
+        tests:
+          - not_null
+          - unique
+      - name: organization_name
+        tests:
+          - not_null
+      - name: answered_question_count
+        description: Number of non-PII analytical questions answered in the assessment.
+
+  - name: fct_avpn_dma_responses
+    description: Question and selected-option fact for response-distribution dashboards.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [assessment_id, question_code, response_code]
+
+  - name: fct_avpn_dma_question_scores
+    description: Question-level score fact for heatmaps, rankings and profile comparisons.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [assessment_id, question_code]
+
+  - name: fct_avpn_dma_section_scores
+    description: Section-level score fact for radar charts and cross-section comparisons.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [assessment_id, section_code]
+
+  - name: fct_avpn_dma_flags
+    description: Assessment diagnostic flag fact for support-priority dashboards.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [assessment_id, flag_code]
+
+  - name: avpn_dma_response_summary
+    description: Overall counts and percentages for every labeled answer option.
+
+  - name: avpn_dma_question_score_summary
+    description: Overall mean and median scores for each scored question.
+
+  - name: avpn_dma_section_summary
+    description: Overall mean, median, range and weighted contribution for each section.
+
+  - name: avpn_dma_maturity_summary
+    description: Organisation distribution and average indices by maturity band.
+
+  - name: avpn_dma_flag_summary
+    description: Prevalence of each diagnostic flag across assessed organisations.

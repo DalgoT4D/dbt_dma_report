@@ -14,3 +14,35 @@ models:
           - not_null
       - name: project_id
         description: Project identifier linked to each submission.
+
+  - name: stg_avpn_dma_assessments
+    description: >-
+      One typed, deduplicated row per Kobo AVPN assessment. Raw survey codes,
+      calculated scores and readable organisation-profile labels are retained.
+      This restricted staging model contains respondent PII and the raw JSON;
+      use the production facts for dashboards.
+    columns:
+      - name: assessment_id
+        description: Stable Kobo submission UUID.
+        tests:
+          - not_null
+          - unique
+      - name: organization_name
+        description: Registered organisation name.
+        tests:
+          - not_null
+      - name: overall_score
+        description: Weighted overall maturity score from 0 to 100.
+        tests:
+          - not_null
+      - name: maturity_level
+        description: Maturity level from 1 (Nascent) to 5 (Advanced).
+        tests:
+          - accepted_values:
+              values: [1, 2, 3, 4, 5]
+              quote: false
+      - name: maturity_band
+        description: Human-readable maturity band.
+        tests:
+          - accepted_values:
+              values: ['Nascent', 'Emerging', 'Developing', 'Established', 'Advanced']
